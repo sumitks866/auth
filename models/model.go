@@ -2,7 +2,6 @@ package models
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 	"time"
@@ -30,8 +29,7 @@ func Setup() {
 		log.Fatalf("Error loading .env file")
 	}
 
-	dburl, exists := os.LookupEnv("MONGO_xURI")
-	fmt.Println("dburi", dburl, exists)
+	dburl, exists := os.LookupEnv("MONGO_URI")
 
 	if !exists {
 		log.Fatal("MongoDB URI not present")
