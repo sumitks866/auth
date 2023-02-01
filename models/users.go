@@ -1,8 +1,6 @@
 package models
 
 import (
-	"log"
-
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -23,27 +21,18 @@ type User struct {
 	Password  string             `json:"password" bson:"password" binding:"required"`
 }
 
-func GetUser(username string, password string) (interface{}, error) {
-	var res bson.M
+func GetUser(username string, password string) (*User, error) {
+	var res User
 	filter := bson.M{"username": username}
 
 	err := client.Database("final-project").Collection("users").FindOne(ctx, filter).Decode(&res)
-	if err != nil {
-		return nil, err
-	}
-	return res, nil
+	return &res, err
 }
 
 // Adds an user to database, returns ObjectId on success else returns error
 func AddUser(user User) (*mongo.InsertOneResult, error) {
 
 	usersColl := client.Database("final-project").Collection("users")
-
 	res, err := usersColl.InsertOne(ctx, user)
-	if err != nil {
-		log.Println(err)
-		return nil, err
-	}
-
-	return res, nil
+	return res, err
 }

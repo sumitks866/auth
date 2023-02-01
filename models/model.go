@@ -6,7 +6,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -24,10 +23,6 @@ func Setup() {
 	var err error
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
-
-	if err := godotenv.Load(); err != nil {
-		log.Fatalf("Error loading .env file")
-	}
 
 	dburl, exists := os.LookupEnv("MONGO_URI")
 
